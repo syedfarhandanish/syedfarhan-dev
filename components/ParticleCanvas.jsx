@@ -6,16 +6,10 @@ export default function ParticleCanvas() {
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        // Safety check: if React hasn't rendered the canvas yet, stop the script.
-        if (!canvas) return; 
+        if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
-        let animationFrameId;
-        
-        // Ensure we only grab window dimensions safely inside useEffect
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
+        let animationFrameId; // Track the frame safely
         let particlesArray = [];
         const particleColor = 'rgba(16, 185, 129, 0.4)';
 
@@ -42,13 +36,17 @@ export default function ParticleCanvas() {
 
         function initParticles() {
             particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 12000;
+            // Use fallback dimensions just in case window isn't ready
+            const width = window.innerWidth || 1200;
+            const height = window.innerHeight || 800;
+            
+            let numberOfParticles = (width * height) / 12000;
             if(numberOfParticles > 100) numberOfParticles = 100;
 
             for (let i = 0; i < numberOfParticles; i++) {
                 let size = (Math.random() * 2) + 1; 
-                let x = (Math.random() * ((window.innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((window.innerHeight - size * 2) - (size * 2)) + size * 2);
+                let x = (Math.random() * ((width - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((height - size * 2) - (size * 2)) + size * 2);
                 let directionX = (Math.random() * 1) - 0.5; 
                 let directionY = (Math.random() * 1) - 0.5;
                 particlesArray.push(new Particle(x, y, directionX, directionY, size));
@@ -59,8 +57,9 @@ export default function ParticleCanvas() {
             let opacityValue = 1;
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    let dx = particlesArray[a].x - particlesArray[b].x;
+                    let dy = particlesArray[a].y - particlesArray[b].y;
+                    let distance = (dx * dx) + (dy * dy);
                     
                     if (distance < (canvas.width / 7) * (canvas.height / 7)) {
                         opacityValue = 1 - (distance / 20000); 
@@ -76,12 +75,13 @@ export default function ParticleCanvas() {
         }
 
         function animateParticles() {
-            animationFrameId = requestAnimationFrame(animateParticles);
-            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].update();
             }
             connectParticles();
+            // Request next frame at the END of the function
+            animationFrameId = requestAnimationFrame(animateParticles);
         }
 
         const handleResize = () => {
@@ -90,17 +90,18 @@ export default function ParticleCanvas() {
             initParticles();
         };
 
-        window.addEventListener('resize', handleResize);
+        // Initial setup
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         initParticles();
         animateParticles();
 
-        // Cleanup on unmount
+        // Flawless Cleanup for Strict Mode
         return () => {
             window.removeEventListener('resize', handleResize);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
 
-    // zIndex ensures the canvas stays firmly in the background
     return <canvas ref={canvasRef} id="particle-canvas" aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1, pointerEvents: 'none' }} />;
 }
