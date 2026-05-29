@@ -1,5 +1,8 @@
 "use client";
 import { useEffect } from 'react';
+import PreLoader from '../components/PreLoader';
+import CustomCursor from '../components/CustomCursor';
+import ScrollProgress from '../components/ScrollProgress';
 import ParticleCanvas from '../components/ParticleCanvas';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -12,7 +15,6 @@ import Contact from '../components/Contact';
 export default function Home() {
   
   useEffect(() => {
-    // 1. Set up the observer
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -22,18 +24,14 @@ export default function Home() {
         });
     }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-    // 2. Use an interval to safely wait for React to finish rendering the HTML
     const checkAndObserve = setInterval(() => {
         const revealElements = document.querySelectorAll('.reveal:not(.active)');
-        
-        // If we found the elements, observe them and stop the timer
         if (revealElements.length > 0) {
             revealElements.forEach(el => observer.observe(el));
             clearInterval(checkAndObserve); 
         }
     }, 100);
 
-    // 3. Cleanup to prevent memory leaks
     return () => {
         clearInterval(checkAndObserve);
         observer.disconnect();
@@ -42,16 +40,22 @@ export default function Home() {
 
   return (
     <>
+      <PreLoader />
+      <CustomCursor />
+      <ScrollProgress />
       <ParticleCanvas />
+      
       <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Contact />
-      </main>
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        <main>
+          <Hero />
+          <About />
+          <Skills />
+          <Experience />
+          <Projects />
+          <Contact />
+        </main>
+      </div>
     </>
   );
 }

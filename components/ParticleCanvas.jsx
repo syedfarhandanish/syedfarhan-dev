@@ -1,107 +1,133 @@
 "use client";
 import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
 
 export default function ParticleCanvas() {
-    const canvasRef = useRef(null);
+    const mountRef = useRef(null);
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        let animationFrameId; // Track the frame safely
-        let particlesArray = [];
-        const particleColor = 'rgba(16, 185, 129, 0.4)';
-
-        class Particle {
-            constructor(x, y, directionX, directionY, size) {
-                this.x = x; this.y = y;
-                this.directionX = directionX; this.directionY = directionY;
-                this.size = size;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = particleColor;
-                ctx.fill();
-            }
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
+        // 1. Setup Scene, Camera, and Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        // alpha: true allows your CSS dark background to show through
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio); // Keeps it sharp on retina screens
+        
+        // Append the 3D canvas to our React div
+        if (mountRef.current) {
+            mountRef.current.appendChild(renderer.domElement);
         }
 
-        function initParticles() {
-            particlesArray = [];
-            // Use fallback dimensions just in case window isn't ready
-            const width = window.innerWidth || 1200;
-            const height = window.innerHeight || 800;
-            
-            let numberOfParticles = (width * height) / 12000;
-            if(numberOfParticles > 100) numberOfParticles = 100;
+        // 2. Create the Core Geometry (A Tech/Quantum Wireframe Node)
+        const geometry = new THREE.IcosahedronGeometry(2.5, 1);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x10b981, // Your custom accent green
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+        const coreNode = new THREE.Mesh(geometry, material);
+        scene.add(coreNode);
 
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1; 
-                let x = (Math.random() * ((width - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((height - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 1) - 0.5; 
-                let directionY = (Math.random() * 1) - 0.5;
-                particlesArray.push(new Particle(x, y, directionX, directionY, size));
-            }
+        // 3. Create the Surrounding Particle Field
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 800; // Number of stars/particles
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            // Spread particles randomly across a 10x10x10 grid
+            posArray[i] = (Math.random() - 0.5) * 12; 
         }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0x10b981,
+            transparent: true,
+            opacity: 0.4
+        });
+        const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleMesh);
 
-        function connectParticles() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let dx = particlesArray[a].x - particlesArray[b].x;
-                    let dy = particlesArray[a].y - particlesArray[b].y;
-                    let distance = (dx * dx) + (dy * dy);
-                    
-                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                        opacityValue = 1 - (distance / 20000); 
-                        ctx.strokeStyle = `rgba(16, 185, 129, ${opacityValue * 0.2})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
+        // Pull the camera back so we can see the objects
+        camera.position.z = 5;
 
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connectParticles();
-            // Request next frame at the END of the function
-            animationFrameId = requestAnimationFrame(animateParticles);
-        }
+        // 4. Track Mouse Movement for Parallax Effect
+        let mouseX = 0;
+        let mouseY = 0;
+        const handleMouseMove = (event) => {
+            // Normalize mouse coordinates from -1 to +1
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        };
+        window.addEventListener('mousemove', handleMouseMove);
 
-        const handleResize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initParticles();
+        // 5. The Animation Loop (60 frames per second)
+        let animationFrameId;
+        const clock = new THREE.Clock();
+
+        const animate = () => {
+            const elapsedTime = clock.getElapsedTime();
+
+            // Slowly rotate the core node
+            coreNode.rotation.y = elapsedTime * 0.1;
+            coreNode.rotation.x = elapsedTime * 0.15;
+
+            // Slowly rotate the entire particle field
+            particleMesh.rotation.y = elapsedTime * 0.05;
+
+            // Smoothly move the camera based on mouse position (Parallax)
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position); // Keep camera pointed at the center
+
+            renderer.render(scene, camera);
+            animationFrameId = requestAnimationFrame(animate);
         };
 
-        // Initial setup
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        initParticles();
-        animateParticles();
+        animate();
 
-        // Flawless Cleanup for Strict Mode
+        // 6. Handle Window Resizing
+        const handleResize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+        window.addEventListener('resize', handleResize);
+
+        // 7. Cleanup (Crucial for React performance)
         return () => {
             window.removeEventListener('resize', handleResize);
+            window.removeEventListener('mousemove', handleMouseMove);
             cancelAnimationFrame(animationFrameId);
+            
+            if (mountRef.current && renderer.domElement) {
+                mountRef.current.removeChild(renderer.domElement);
+            }
+            
+            // Dispose of 3D assets to prevent memory leaks
+            geometry.dispose();
+            material.dispose();
+            particlesGeometry.dispose();
+            particlesMaterial.dispose();
+            renderer.dispose();
         };
     }, []);
 
-    return <canvas ref={canvasRef} id="particle-canvas" aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1, pointerEvents: 'none' }} />;
+    return (
+        <div 
+            ref={mountRef} 
+            style={{ 
+                position: 'fixed', 
+                top: 0, 
+                left: 0, 
+                width: '100vw', 
+                height: '100vh', 
+                zIndex: 0, 
+                pointerEvents: 'none' 
+            }} 
+        />
+    );
 }

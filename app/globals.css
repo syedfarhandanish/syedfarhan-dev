@@ -570,3 +570,10 @@ input:focus, textarea:focus {
     .nav-links { display: none; }
     .exp-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
 }
+
+/* Hide default cursor on desktop devices with a mouse */
+@media (pointer: fine) {
+    body, a, button, input, textarea, .custom-cursor-target {
+        cursor: none !important;
+    }
+}
