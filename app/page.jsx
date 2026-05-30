@@ -1,7 +1,6 @@
 "use client";
 import { useEffect } from 'react';
 import PreLoader from '../components/PreLoader';
-import CustomCursor from '../components/CustomCursor';
 import ScrollProgress from '../components/ScrollProgress';
 import ParticleCanvas from '../components/ParticleCanvas';
 import Navbar from '../components/Navbar';
@@ -11,6 +10,7 @@ import Skills from '../components/Skills';
 import Experience from '../components/Experience';
 import Projects from '../components/Projects';
 import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 
 export default function Home() {
   
@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <>
       <PreLoader />
-      <CustomCursor />
+      {/* CustomCursor removed from here because it is now running globally in layout.jsx */}
       <ScrollProgress />
       <ParticleCanvas />
       
@@ -54,6 +54,7 @@ export default function Home() {
           <Experience />
           <Projects />
           <Contact />
+          <Footer />
         </main>
       </div>
     </>

@@ -1,5 +1,6 @@
 import './globals.css';
 import Script from 'next/script';
+import CustomCursor from '../components/CustomCursor'; // Make sure this path matches your folder structure
 
 export const metadata = {
   title: 'Syed Farhan Danish | Front-End Developer & UI Designer',
@@ -28,7 +29,11 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet" />
       </head>
       <body>
+        {/* THE GLOBAL CURSOR LAYER: Sits above all pages natively */}
+        <CustomCursor />
+        
         {children}
+        
         <Script src="https://platform.linkedin.com/badges/js/profile.js" strategy="lazyOnload" />
       </body>
     </html>

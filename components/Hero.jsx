@@ -14,7 +14,7 @@ export default function Hero() {
             opacity: 1,
             transition: { 
                 staggerChildren: 0.12, 
-                delayChildren: 2.2 // Waits for the PreLoader to finish
+                delayChildren: 3.4 // Shifted from 2.9 to maintain sequence
             },
         },
     };
@@ -34,7 +34,7 @@ export default function Hero() {
             <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.8, duration: 0.8 }}
+                transition={{ delay: 3.0, duration: 0.8 }} // Base wait time set to 3 seconds
                 style={{ color: 'var(--accent-green)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem', fontWeight: 600 }}
             >
                 Hi, my name is Syed Farhan Danish.
@@ -62,7 +62,7 @@ export default function Hero() {
             <motion.p 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 3.2, duration: 0.8 }}
+                transition={{ delay: 4.4, duration: 0.8 }} // Shifted from 3.9s
                 style={{ fontSize: '1.1rem', color: 'var(--text-muted)', maxWidth: '600px', marginBottom: '3rem', lineHeight: 1.6 }}
             >
                 Front-End Developer & UI Designer | Youth Advocate | Deputy President @ AKHSS Booni
@@ -72,7 +72,7 @@ export default function Hero() {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3.5, duration: 0.5 }}
+                transition={{ delay: 4.7, duration: 0.5 }} // Shifted from 4.2s
                 style={{ display: 'flex', gap: '20px', alignItems: 'center' }}
             >
                 <MagneticButton>

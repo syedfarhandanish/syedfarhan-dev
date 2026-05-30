@@ -61,7 +61,7 @@ export default function About() {
                         {/* 1. Base Image with Duotone Filter effect */}
                         <div style={{ position: 'relative', filter: 'contrast(1.1) saturate(1.2)' }}>
                             <Image 
-                                src="/images/profile.jpg" 
+                                src="/images/profilepic.png" 
                                 alt="Syed Farhan Danish" 
                                 width={500} height={600} priority
                                 style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
