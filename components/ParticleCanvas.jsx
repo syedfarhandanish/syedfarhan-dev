@@ -10,10 +10,16 @@ export default function ParticleCanvas() {
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         
-        // alpha: true allows your CSS dark background to show through
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        // FIX APPLIED: alpha: true allows your CSS dark background to show through, high-performance utilizes GPU
+        const renderer = new THREE.WebGLRenderer({ 
+            alpha: true, 
+            antialias: true,
+            powerPreference: "high-performance" 
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio); // Keeps it sharp on retina screens
+        
+        // FIX APPLIED: Capped at 2 to keep it sharp but prevent extreme lag on Retina screens
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         
         // Append the 3D canvas to our React div
         if (mountRef.current) {
@@ -97,7 +103,7 @@ export default function ParticleCanvas() {
         };
         window.addEventListener('resize', handleResize);
 
-        // 7. Cleanup (Crucial for React performance)
+        // 7. Cleanup (Crucial for React performance and fixing the WebGL Crash)
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousemove', handleMouseMove);
@@ -113,6 +119,9 @@ export default function ParticleCanvas() {
             particlesGeometry.dispose();
             particlesMaterial.dispose();
             renderer.dispose();
+
+            // FIX APPLIED: Force context loss to clear the browser's WebGL limit
+            renderer.forceContextLoss();
         };
     }, []);
 

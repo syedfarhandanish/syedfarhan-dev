@@ -2,7 +2,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-// Your Professional Timeline Data
 const experiences = [
     {
         id: "01",
@@ -32,29 +31,25 @@ const experiences = [
 
 export default function Experience() {
     const containerRef = useRef(null);
-    
-    // Track how far the user has scrolled through this specific section
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start center", "end center"]
     });
 
-    // The central glowing line grows as you scroll
     const lineScale = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
     return (
-        <section id="experience" ref={containerRef} style={{ paddingTop: '120px', paddingBottom: '120px', position: 'relative', overflow: 'hidden' }}>
+        <section id="experience" ref={containerRef} style={{ position: 'relative', overflow: 'hidden' }}>
             
-            {/* Background Decor */}
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.03, backgroundImage: 'radial-gradient(circle at 50% 50%, #10b981 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none' }} />
 
             <motion.div 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                style={{ textAlign: 'center', marginBottom: '6rem' }}
+                style={{ textAlign: 'center', marginBottom: 'var(--space-section)' }}
             >
-                <h2 className="section-title" style={{ display: 'inline-block' }}>Operational History</h2>
+                <h2 className="section-title" style={{ display: 'inline-block' }}>Experience</h2>
             </motion.div>
 
             <div style={{ position: 'relative', maxWidth: '1000px', margin: '0 auto' }}>
@@ -67,14 +62,13 @@ export default function Experience() {
                 </div>
 
                 {/* THE TIMELINE NODES */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-section)' }}>
                     {experiences.map((exp, index) => {
                         const isEven = index % 2 === 0;
 
                         return (
                             <div key={exp.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: isEven ? 'row' : 'row-reverse', width: '100%' }}>
                                 
-                                {/* The Glass Card */}
                                 <motion.div 
                                     initial={{ opacity: 0, x: isEven ? -50 : 50, filter: "blur(10px)" }}
                                     whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
@@ -83,11 +77,10 @@ export default function Experience() {
                                     style={{ width: '45%', position: 'relative' }}
                                     className="experience-card-wrapper"
                                 >
-                                    {/* Futuristic Cyber-Corners (Target Lock) */}
                                     <div style={{ position: 'absolute', top: -5, left: -5, width: 20, height: 20, borderTop: '2px solid var(--accent-green)', borderLeft: '2px solid var(--accent-green)', zIndex: 10 }} />
                                     <div style={{ position: 'absolute', bottom: -5, right: -5, width: 20, height: 20, borderBottom: '2px solid var(--accent-green)', borderRight: '2px solid var(--accent-green)', zIndex: 10 }} />
 
-                                    <div className="glass-card" style={{ padding: '2.5rem', position: 'relative', zIndex: 1, border: '1px solid rgba(16, 185, 129, 0.1)', transition: 'border-color 0.3s ease, box-shadow 0.3s ease' }}
+                                    <div className="glass-card" style={{ position: 'relative', zIndex: 1, border: '1px solid rgba(16, 185, 129, 0.1)', transition: 'border-color 0.3s ease, box-shadow 0.3s ease' }}
                                         onMouseEnter={(e) => {
                                             e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.5)';
                                             e.currentTarget.style.boxShadow = '0 0 30px rgba(16, 185, 129, 0.1)';
@@ -97,19 +90,19 @@ export default function Experience() {
                                             e.currentTarget.style.boxShadow = 'none';
                                         }}
                                     >
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                                            <h3 style={{ color: 'var(--text-main)', fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>{exp.role}</h3>
-                                            <span style={{ color: 'var(--accent-green)', fontFamily: 'monospace', fontSize: '0.9rem', backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: '5px 10px', borderRadius: '4px' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-sm)' }}>
+                                            <h3 style={{ color: 'var(--text-main)', fontSize: 'var(--text-xl)', fontWeight: 700, margin: 0 }}>{exp.role}</h3>
+                                            <span style={{ color: 'var(--accent-green)', fontFamily: 'monospace', fontSize: 'var(--text-xs)', backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: '5px 10px', borderRadius: '4px' }}>
                                                 {exp.period}
                                             </span>
                                         </div>
                                         
-                                        <h4 style={{ color: '#ffffff', fontSize: '1.1rem', marginBottom: '1.5rem', opacity: 0.9 }}>{exp.company}</h4>
-                                        <p style={{ color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '2rem' }}>{exp.description}</p>
+                                        <h4 style={{ color: '#ffffff', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-md)', opacity: 0.9 }}>{exp.company}</h4>
+                                        <p style={{ color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-lg)', fontSize: 'var(--text-base)' }}>{exp.description}</p>
                                         
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                                             {exp.skills.map((skill, i) => (
-                                                <span key={i} style={{ color: 'var(--text-muted)', fontSize: '0.85rem', padding: '5px 12px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', background: 'rgba(0,0,0,0.2)' }}>
+                                                <span key={i} style={{ color: 'var(--text-muted)', fontSize: 'var(--text-xs)', padding: '4px 12px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', background: 'rgba(0,0,0,0.2)' }}>
                                                     {skill}
                                                 </span>
                                             ))}
@@ -117,7 +110,6 @@ export default function Experience() {
                                     </div>
                                 </motion.div>
 
-                                {/* The Center Node (Glowing Dot) */}
                                 <div style={{ width: '10%', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 2 }}>
                                     <motion.div 
                                         initial={{ scale: 0 }}
@@ -128,26 +120,23 @@ export default function Experience() {
                                     />
                                 </div>
 
-                                {/* Empty space for the other side to force the flex layout */}
                                 <div style={{ width: '45%' }}>
-                                    {/* Large faded number watermarks */}
                                     <motion.div 
                                         initial={{ opacity: 0, x: isEven ? 20 : -20 }}
                                         whileInView={{ opacity: 0.05, x: 0 }}
                                         viewport={{ once: true }}
-                                        style={{ fontSize: '8rem', fontWeight: 900, color: '#fff', textAlign: isEven ? 'left' : 'right', lineHeight: 1, userSelect: 'none' }}
+                                        className="watermark-number"
+                                        style={{ fontSize: 'clamp(4rem, 8vw, 8rem)', fontWeight: 900, color: '#fff', textAlign: isEven ? 'left' : 'right', lineHeight: 1, userSelect: 'none' }}
                                     >
                                         {exp.id}
                                     </motion.div>
                                 </div>
-
                             </div>
                         );
                     })}
                 </div>
             </div>
 
-            {/* Mobile Responsiveness Override */}
             <style jsx>{`
                 @media (max-width: 768px) {
                     .experience-card-wrapper {
@@ -156,7 +145,7 @@ export default function Experience() {
                     div[style*="width: 10%"] {
                         display: none !important;
                     }
-                    div[style*="width: 45%"]:empty, div[style*="width: 45%"] > div[style*="font-size: 8rem"] {
+                    div[style*="width: 45%"]:empty, .watermark-number {
                         display: none !important;
                     }
                     div[style*="left: 50%"] {

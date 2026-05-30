@@ -17,7 +17,7 @@ const Icons = {
     ),
     Email: () => (
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
         </svg>
     ),
     GitHub: () => (
@@ -73,8 +73,8 @@ export default function Footer() {
                 backgroundColor: '#020617', 
                 overflow: 'hidden', 
                 borderTop: '1px solid rgba(16, 185, 129, 0.2)', 
-                marginTop: '100px', 
-                paddingTop: '6rem',
+                marginTop: 'var(--space-section)', 
+                paddingTop: 'var(--space-section)',
                 willChange: 'transform'
             }}
         >
@@ -95,25 +95,25 @@ export default function Footer() {
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.03%22/%3E%3C/svg%3E")', pointerEvents: 'none', zIndex: 1 }} />
 
             {/* SECTION 1: Clean, Human Call to Action */}
-            <div style={{ maxWidth: '1200px', marginTop: 0, marginRight: 'auto', marginBottom: '6rem', marginLeft: 'auto', padding: '0 5%', textAlign: 'center', position: 'relative', zIndex: 2 }}>
+            <div style={{ maxWidth: '1200px', marginTop: 0, marginRight: 'auto', marginBottom: 'var(--space-section)', marginLeft: 'auto', padding: '0 var(--screen-edge)', textAlign: 'center', position: 'relative', zIndex: 2 }}>
                 
                 {/* Hardware Accelerated Floating Div */}
                 <div className="smooth-float">
                     <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
-                        <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem' }}>
+                        <h2 style={{ fontSize: 'var(--text-hero)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 'var(--space-md)' }}>
                             Have an idea? <br />
                             <span style={{ color: 'var(--accent-green)' }}>Let's build it together.</span>
                         </h2>
                         
-                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
-                            I am currently available for freelance work, collaborative projects, and full-time opportunities.
+                        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-base)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
+                            I am currently available for freelance work, collaborative projects, and part-time opportunities.
                         </p>
                     </motion.div>
                 </div>
             </div>
 
             {/* SECTION 2: Flawless Smooth Tilted Marquee Layout */}
-            <div style={{ position: 'relative', width: '100vw', transform: 'rotate(-2.5deg) scale(1.05)', background: 'rgba(255, 255, 255, 0.02)', borderTop: '1px solid rgba(255, 255, 255, 0.05)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', padding: '1.5rem 0', marginBottom: '6rem', zIndex: 2, display: 'flex', overflow: 'hidden', backdropFilter: 'blur(10px)' }}>
+            <div style={{ position: 'relative', width: '100vw', transform: 'rotate(-2.5deg) scale(1.05)', background: 'rgba(255, 255, 255, 0.02)', borderTop: '1px solid rgba(255, 255, 255, 0.05)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', padding: 'var(--space-md) 0', marginBottom: 'var(--space-section)', zIndex: 2, display: 'flex', overflow: 'hidden', backdropFilter: 'blur(10px)' }}>
                 
                 {/* Pure CSS hardware-accelerated marquee track */}
                 <div className="smooth-marquee" style={{ display: 'flex', width: 'max-content' }}>
@@ -122,7 +122,7 @@ export default function Footer() {
                     <div style={{ display: 'flex', whiteSpace: 'nowrap', paddingRight: '3rem' }}>
                         {marqueeSkills.map((skill, index) => (
                             <div key={`set1-${index}`} style={{ display: 'flex', alignItems: 'center', marginRight: '3rem' }}>
-                                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: index % 2 === 0 ? 'transparent' : 'var(--accent-green)', WebkitTextStroke: index % 2 === 0 ? '1px rgba(255,255,255,0.4)' : 'none', fontFamily: 'monospace', letterSpacing: '1px' }}>
+                                <span style={{ fontSize: 'var(--text-3xl)', fontWeight: 800, color: index % 2 === 0 ? 'transparent' : 'var(--accent-green)', WebkitTextStroke: index % 2 === 0 ? '1px rgba(255,255,255,0.4)' : 'none', fontFamily: 'monospace', letterSpacing: '1px' }}>
                                     {skill}
                                 </span>
                                 <div style={{ width: '8px', height: '8px', background: 'var(--accent-green)', borderRadius: '50%', marginLeft: '3rem' }} />
@@ -134,7 +134,7 @@ export default function Footer() {
                     <div style={{ display: 'flex', whiteSpace: 'nowrap', paddingRight: '3rem' }}>
                         {marqueeSkills.map((skill, index) => (
                             <div key={`set2-${index}`} style={{ display: 'flex', alignItems: 'center', marginRight: '3rem' }}>
-                                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: index % 2 === 0 ? 'transparent' : 'var(--accent-green)', WebkitTextStroke: index % 2 === 0 ? '1px rgba(255,255,255,0.4)' : 'none', fontFamily: 'monospace', letterSpacing: '1px' }}>
+                                <span style={{ fontSize: 'var(--text-3xl)', fontWeight: 800, color: index % 2 === 0 ? 'transparent' : 'var(--accent-green)', WebkitTextStroke: index % 2 === 0 ? '1px rgba(255,255,255,0.4)' : 'none', fontFamily: 'monospace', letterSpacing: '1px' }}>
                                     {skill}
                                 </span>
                                 <div style={{ width: '8px', height: '8px', background: 'var(--accent-green)', borderRadius: '50%', marginLeft: '3rem' }} />
@@ -146,12 +146,12 @@ export default function Footer() {
             </div>
 
             {/* SECTION 3: Simple Bottom Grid (Icons & Copyright) */}
-            <div style={{ maxWidth: '1400px', marginTop: 0, marginRight: 'auto', marginBottom: '3rem', marginLeft: 'auto', padding: '0 5%', position: 'relative', zIndex: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '3rem' }}>
+            <div style={{ maxWidth: '1400px', marginTop: 0, marginRight: 'auto', marginBottom: 'var(--space-lg)', marginLeft: 'auto', padding: '0 var(--screen-edge)', position: 'relative', zIndex: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 'var(--space-lg)' }}>
                 
                 {/* Left: The Social Icons */}
                 <div>
-                    <p style={{ color: '#fff', fontSize: '1rem', marginBottom: '1.5rem', fontWeight: 600 }}>Socials</p>
-                    <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                    <p style={{ color: '#fff', fontSize: 'var(--text-base)', marginBottom: 'var(--space-sm)', fontWeight: 600 }}>Socials</p>
+                    <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
                         <MagneticButton>
                             <a href="https://pk.linkedin.com/in/syedfarhandanish" target="_blank" rel="noopener noreferrer" className="icon-link" aria-label="LinkedIn">
                                 <Icons.LinkedIn />
@@ -182,12 +182,12 @@ export default function Footer() {
                 <div style={{ textAlign: 'right' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px', marginBottom: '10px' }}>
                         <div style={{ width: '8px', height: '8px', background: 'var(--accent-green)', borderRadius: '50%', boxShadow: '0 0 10px var(--accent-green)' }} />
-                        <p style={{ color: 'var(--text-main)', fontSize: '1rem', margin: 0 }}>Available for work</p>
+                        <p style={{ color: 'var(--text-main)', fontSize: 'var(--text-base)', margin: 0 }}>Available for work</p>
                     </div>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: '0 0 5px 0' }}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 5px 0' }}>
                         Based in Mastuj, Pakistan
                     </p>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0 }}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: 0 }}>
                         &copy; {currentYear} Syed Farhan Danish.
                     </p>
                 </div>

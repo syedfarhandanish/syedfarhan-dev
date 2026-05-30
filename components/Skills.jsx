@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// The Database of your Capabilities
 const skillCategories = [
     {
         id: "architecture",
@@ -38,21 +37,20 @@ const skillCategories = [
         ]
     },
     {
-        id: "foundations",
-        title: "Core Foundations",
-        description: "Strengthening analytical capabilities and problem-solving logic to prepare for future explorations in Quantum Computing and Artificial Intelligence.",
+        id: "optimization",
+        title: "Performance Optimization",
+        description: "Delivering lightning-fast, accessible web experiences by mastering Core Web Vitals, GPU hardware acceleration, and advanced SEO architectures.",
         skills: [
-            { name: "Advanced Mathematics", level: 75 },
-            { name: "Theoretical Physics", level: 70 },
-            { name: "Algorithmic Logic", level: 80 },
-            { name: "System Research", level: 85 }
+            { name: "Core Web Vitals", level: 95 },
+            { name: "Hardware Acceleration", level: 90 },
+            { name: "Web Accessibility (a11y)", level: 85 },
+            { name: "Technical SEO", level: 85 }
         ]
     }
 ];
 
-// The Cyber-Punk Data Server Bar Component
 const StatusBar = ({ level }) => {
-    const blocks = 10; // 10 segments per bar
+    const blocks = 10;
     const filledBlocks = Math.round(level / 10);
 
     return (
@@ -79,36 +77,33 @@ const StatusBar = ({ level }) => {
 
 export default function Skills() {
     const [activeTab, setActiveTab] = useState(skillCategories[0].id);
-
-    // Find the currently active category data
-    const activeData = skillCategories.find(cat => cat.id === activeTab);
+    const activeData = skillCategories.find(cat => cat.id === activeTab) || skillCategories[0];
 
     return (
-        <section id="skills" style={{ paddingTop: '100px', paddingBottom: '100px', position: 'relative' }}>
+        <section id="skills" style={{ position: 'relative' }}>
             
             <motion.div 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                style={{ marginBottom: '4rem' }}
+                style={{ marginBottom: 'var(--space-lg)' }}
             >
-                <h2 className="section-title">Capability Matrix</h2>
+                <h2 className="section-title">Expertise</h2>
             </motion.div>
 
-            {/* The Command Center Layout */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-lg)' }}>
                 
                 {/* LEFT: Interactive Navigation Tabs */}
-                <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
                     {skillCategories.map((category) => {
-                        const isActive = activeTab === category.id;
+                        const isActive = activeData.id === category.id;
                         return (
                             <button
                                 key={category.id}
                                 onClick={() => setActiveTab(category.id)}
                                 style={{
                                     textAlign: 'left',
-                                    padding: '1.5rem',
+                                    padding: 'var(--space-md)',
                                     background: isActive ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
                                     border: 'none',
                                     borderLeft: isActive ? '4px solid var(--accent-green)' : '4px solid rgba(255,255,255,0.05)',
@@ -122,13 +117,13 @@ export default function Skills() {
                                     overflow: 'hidden'
                                 }}
                             >
-                                <span style={{ fontSize: '1.1rem', fontWeight: isActive ? 700 : 500, letterSpacing: '1px' }}>
+                                <span style={{ fontSize: 'var(--text-base)', fontWeight: isActive ? 700 : 500, letterSpacing: '1px' }}>
                                     {category.title}
                                 </span>
                                 {isActive && (
                                     <motion.span 
                                         layoutId="activeTabIndicator"
-                                        style={{ fontSize: '0.8rem', color: 'var(--accent-green)', fontFamily: 'monospace' }}
+                                        style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-green)', fontFamily: 'monospace' }}
                                     >
                                         [ACTIVE]
                                     </motion.span>
@@ -140,41 +135,40 @@ export default function Skills() {
 
                 {/* RIGHT: The Glassmorphic Data Display Panel */}
                 <div style={{ flex: '2 1 600px', position: 'relative' }}>
-                    <div className="glass-card" style={{ padding: '3rem', minHeight: '400px', borderTop: '4px solid var(--accent-green)' }}>
+                    {/* Removed static minHeight: 400px so it naturally hugs content on mobile */}
+                    <div className="glass-card" style={{ borderTop: '4px solid var(--accent-green)' }}>
                         
-                        {/* Blinking "Online" indicator */}
                         <div style={{ position: 'absolute', top: '1.5rem', right: '2rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <motion.div 
                                 animate={{ opacity: [1, 0.3, 1] }} 
                                 transition={{ repeat: Infinity, duration: 2 }}
                                 style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--accent-green)', boxShadow: '0 0 10px var(--accent-green)' }}
                             />
-                            <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontFamily: 'monospace' }}>SYS_ONLINE</span>
+                            <span style={{ color: 'var(--text-muted)', fontSize: 'var(--text-xs)', fontFamily: 'monospace' }}>STATUS: READY</span>
                         </div>
 
-                        {/* Crossfade Animation Container */}
                         <AnimatePresence mode="wait">
                             <motion.div
-                                key={activeTab} // Changing the key triggers the unmount/mount animation
+                                key={activeData.id}
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                             >
-                                <h3 style={{ fontSize: '2rem', color: 'var(--text-main)', marginBottom: '1rem', fontWeight: 800 }}>
+                                <h3 style={{ fontSize: 'var(--text-2xl)', color: 'var(--text-main)', marginBottom: 'var(--space-sm)', fontWeight: 800 }}>
                                     {activeData.title}
                                 </h3>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '3rem', maxWidth: '90%' }}>
+                                <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-base)', lineHeight: 1.6, marginBottom: 'var(--space-lg)', maxWidth: '100%' }}>
                                     {activeData.description}
                                 </p>
 
-                                {/* The Skill Server Racks */}
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
+                                {/* Utilizing the auto-fit CSS grid class instead of hardcoded inline grid */}
+                                <div className="skills-grid">
                                     {activeData.skills.map((skill, index) => (
                                         <div key={index}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                                                <span style={{ color: '#ffffff', fontWeight: 600, letterSpacing: '0.5px' }}>{skill.name}</span>
-                                                <span style={{ color: 'var(--accent-green)', fontFamily: 'monospace', fontSize: '0.9rem' }}>{skill.level}%</span>
+                                                <span style={{ color: '#ffffff', fontWeight: 600, letterSpacing: '0.5px', fontSize: 'var(--text-sm)' }}>{skill.name}</span>
+                                                <span style={{ color: 'var(--accent-green)', fontFamily: 'monospace', fontSize: 'var(--text-xs)' }}>{skill.level}%</span>
                                             </div>
                                             <StatusBar level={skill.level} />
                                         </div>
