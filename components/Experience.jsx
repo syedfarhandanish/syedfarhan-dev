@@ -54,14 +54,12 @@ export default function Experience() {
 
             <div style={{ position: 'relative', maxWidth: '1000px', margin: '0 auto' }}>
                 
-                {/* THE CENTRAL FIBER-OPTIC LINE */}
                 <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '2px', background: 'rgba(255,255,255,0.05)', transform: 'translateX(-50%)' }}>
                     <motion.div 
                         style={{ width: '100%', height: lineScale, background: 'var(--accent-green)', boxShadow: '0 0 20px 2px var(--accent-green)' }} 
                     />
                 </div>
 
-                {/* THE TIMELINE NODES */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-section)' }}>
                     {experiences.map((exp, index) => {
                         const isEven = index % 2 === 0;
@@ -90,9 +88,12 @@ export default function Experience() {
                                             e.currentTarget.style.boxShadow = 'none';
                                         }}
                                     >
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-sm)' }}>
+                                        {/* THE FIX APPLIED HERE: Added gap: '15px' and flexWrap: 'wrap' */}
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '15px', flexWrap: 'wrap', marginBottom: 'var(--space-sm)' }}>
                                             <h3 style={{ color: 'var(--text-main)', fontSize: 'var(--text-xl)', fontWeight: 700, margin: 0 }}>{exp.role}</h3>
-                                            <span style={{ color: 'var(--accent-green)', fontFamily: 'monospace', fontSize: 'var(--text-xs)', backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: '5px 10px', borderRadius: '4px' }}>
+                                            
+                                            {/* THE FIX APPLIED HERE: Added whiteSpace: 'nowrap' so the badge doesn't break into two lines */}
+                                            <span style={{ color: 'var(--accent-green)', fontFamily: 'monospace', fontSize: 'var(--text-xs)', backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: '5px 10px', borderRadius: '4px', whiteSpace: 'nowrap' }}>
                                                 {exp.period}
                                             </span>
                                         </div>

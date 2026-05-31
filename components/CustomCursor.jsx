@@ -83,7 +83,7 @@ export default function CustomCursor() {
                     backgroundColor: 'var(--accent-green)',
                     borderRadius: '50%',
                     pointerEvents: 'none',
-                    zIndex: 9999,
+                    zIndex: 999999, // FIX APPLIED: Massively high z-index to sit above popups
                     marginLeft: '-3px', // Center offset
                     marginTop: '-3px',
                     willChange: 'transform' // Forces GPU acceleration
@@ -102,7 +102,7 @@ export default function CustomCursor() {
                     border: '1px solid rgba(16, 185, 129, 0.6)',
                     borderRadius: '50%',
                     pointerEvents: 'none',
-                    zIndex: 9998,
+                    zIndex: 999998, // FIX APPLIED: Sits right below the dot, but above everything else
                     marginLeft: '-18px',
                     marginTop: '-18px',
                     transition: 'width 0.2s, height 0.2s, margin 0.2s, background-color 0.2s',

@@ -1,14 +1,13 @@
 import './globals.css';
 import Script from 'next/script';
-import CustomCursor from '../components/CustomCursor'; // Make sure this path matches your folder structure
-
-// 1. Import the optimized Next.js Font
+import { Analytics } from '@vercel/analytics/react'; 
+import CustomCursor from '../components/CustomCursor'; 
+import GlobalPopups from '../components/GlobalPopups'; 
 import { Inter } from 'next/font/google';
 
-// 2. Configure the font (Downloads at build-time for instant loading)
 const inter = Inter({ 
   subsets: ['latin'],
-  display: 'swap', // Prevents invisible text while loading
+  display: 'swap', 
 });
 
 export const metadata = {
@@ -33,14 +32,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    // 3. Apply the font class to the HTML tag
     <html lang="en" style={{ scrollBehavior: 'smooth' }} className={inter.className}>
+      {/* THE FIX: Removed the dangerous inline styles that caused the React crash */}
       <body>
-        {/* THE GLOBAL CURSOR LAYER: Sits above all pages natively */}
+        
         <CustomCursor />
+        <GlobalPopups />
         
         {children}
         
+        <Analytics />
         <Script src="https://platform.linkedin.com/badges/js/profile.js" strategy="lazyOnload" />
       </body>
     </html>

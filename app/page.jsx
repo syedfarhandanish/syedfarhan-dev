@@ -2,11 +2,12 @@
 import { useEffect } from 'react';
 import PreLoader from '../components/PreLoader';
 import ScrollProgress from '../components/ScrollProgress';
-import ParticleCanvas from '../components/ParticleCanvas';
+import ParticleCanvas from '../components/ParticleCanvas'; // 1. UNDONE: Back to normal import
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Skills from '../components/Skills';
+import ActiveGrowth from '../components/ActiveGrowth'; 
 import Experience from '../components/Experience';
 import Projects from '../components/Projects';
 import Contact from '../components/Contact';
@@ -41,8 +42,9 @@ export default function Home() {
   return (
     <>
       <PreLoader />
-      {/* CustomCursor removed from here because it is now running globally in layout.jsx */}
       <ScrollProgress />
+      
+      {/* 2. UNDONE: Renders normally on load */}
       <ParticleCanvas />
       
       <Navbar />
@@ -51,6 +53,7 @@ export default function Home() {
           <Hero />
           <About />
           <Skills />
+          <ActiveGrowth /> 
           <Experience />
           <Projects />
           <Contact />
