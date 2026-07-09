@@ -7,6 +7,24 @@ import MagneticButton from './MagneticButton';
 const projectsData = [
     {
         id: "01",
+        title: "Hindukush Express",
+        description: "A sophisticated, full-stack transportation booking and operations platform. Features a custom booking wizard with live 19-seater cabin mapping, and a real-time admin command center powered by Supabase for active manifest management and fleet control.",
+        tech: ["Next.js", "Supabase", "Full-Stack Architecture"],
+        caseStudy: null,
+        liveLink: "https://hindukushexpress.vercel.app/",
+        status: "FULL-STACK LIVE",
+    },
+    {
+        id: "02",
+        title: "Collabs Ecosystem Hub",
+        description: "The primary digital entry point and centralized routing hub for the complete Collabs educational ecosystem, seamlessly connecting users to various specialized utility sub-domains.",
+        tech: ["Next.js", "Ecosystem Architecture", "Routing"],
+        caseStudy: null,
+        liveLink: "https://collabs.eu.org/",
+        status: "MAIN HUB LIVE",
+    },
+    {
+        id: "03",
         title: "Xylem Innovation App",
         description: "Served as the core UI/UX Designer inside a 5-member collaborative engineering team to design an intuitive water-usage governance application handling critical ecological data streams.",
         tech: ["UI/UX Design", "System Prototyping", "Eco-Tech"],
@@ -15,7 +33,7 @@ const projectsData = [
         status: "CASE STUDY",
     },
     {
-        id: "02",
+        id: "04",
         title: "Collabs Mail Infrastructure",
         description: "Prototyped a secure, specialized student communications router, utilizing custom Zoho Mail deployment integrations alongside advanced MX, TXT, and CNAME DNS mapping.",
         tech: ["DNS Config", "Zoho API", "DevOps"],
@@ -24,7 +42,7 @@ const projectsData = [
         status: "LIVE & STUDY",
     },
     {
-        id: "03",
+        id: "05",
         title: "Collabs Drop",
         description: "A high-performance, web-based asset distribution and cloud storage tool built into the Next.js ecosystem to facilitate seamless peer-to-peer file sharing.",
         tech: ["Next.js", "React", "Cloud Storage"],
@@ -33,7 +51,7 @@ const projectsData = [
         status: "DEPLOYED",
     },
     {
-        id: "04",
+        id: "06",
         title: "QR Lab",
         description: "Engineered a Progressive Web App (PWA) resource-access system utilizing custom QR-code generation matrix logic for instant academic file retrieval and mobile performance optimization.",
         tech: ["PWA", "JavaScript", "Automation"],
@@ -42,7 +60,7 @@ const projectsData = [
         status: "DEPLOYED",
     },
     {
-        id: "05",
+        id: "07",
         title: "Collabs Flow",
         description: "A specialized productivity hub designed for students, featuring an integrated Kanban planning module, customizable Pomodoro deep-focus timers, and reactive media channels.",
         tech: ["UI/UX Architecture", "Productivity"],
@@ -51,7 +69,7 @@ const projectsData = [
         status: "DEPLOYED",
     },
     {
-        id: "06",
+        id: "08",
         title: "Cosmopolitan Boys Hostel",
         description: "Architected a client portfolio system with cross-device layout structures and custom brand-palette rules, establishing an interactive web footprint for local hospitality providers.",
         tech: ["Semantic HTML", "CSS Variables", "Responsive Engines"],
@@ -70,7 +88,7 @@ export default function Projects() {
             <div style={{ maxWidth: '1000px', margin: '0 auto', width: '100%' }}>
                 
                 {/* Header Area */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'var(--space-lg)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'var(--space-lg)', flexWrap: 'wrap', gap: '16px' }}>
                     <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
                         <h2 className="section-title" style={{ margin: 0 }}>Projects</h2>
                     </motion.div>
@@ -106,7 +124,7 @@ export default function Projects() {
                             >
                                 {/* Top Row: Always Visible */}
                                 <motion.div layout style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--space-md)' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
                                         <span style={{ fontFamily: 'monospace', fontSize: 'var(--text-lg)', color: isActive ? 'var(--accent-green)' : 'rgba(255,255,255,0.3)', fontWeight: 700, transition: 'color 0.3s ease' }}>
                                             {project.id}
                                         </span>
@@ -117,7 +135,7 @@ export default function Projects() {
                                     
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: isActive ? 'var(--accent-green)' : 'rgba(255,255,255,0.2)' }} />
-                                        <span style={{ fontSize: 'var(--text-xs)', letterSpacing: '1px', color: isActive ? 'var(--accent-green)' : 'var(--text-muted)' }}>
+                                        <span style={{ fontSize: 'var(--text-xs)', letterSpacing: '1px', color: isActive ? 'var(--accent-green)' : 'var(--text-muted)', whiteSpace: 'nowrap' }}>
                                             {project.status}
                                         </span>
                                     </div>
