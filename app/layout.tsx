@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter, Instrument_Serif, JetBrains_Mono } from 'ne
 import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 import { site } from '@/content/site';
+import { jsonLdString, profileUrls, siteJsonLd } from '@/lib/seo';
 import { ThemeProvider, themeInitScript } from '@/components/layout/ThemeProvider';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -11,6 +12,7 @@ import ScrollProgress from '@/components/layout/ScrollProgress';
 import BackToTop from '@/components/layout/BackToTop';
 import Cursor from '@/components/layout/Cursor';
 import RevealObserver from '@/components/ui/RevealObserver';
+import ServiceWorker from '@/components/layout/ServiceWorker';
 
 const display = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage', display: 'swap' });
 const sans = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
@@ -18,7 +20,7 @@ const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains', 
 const serif = Instrument_Serif({
   subsets: ['latin'],
   weight: '400',
-  style: ['italic', 'normal'],
+  style: 'italic',
   variable: '--font-instrument',
   display: 'swap',
 });
@@ -38,15 +40,20 @@ export const metadata: Metadata = {
     title: site.seo.title,
     description: site.seo.description,
     locale: site.locale,
-    images: [{ url: '/images/og-thumbnail.jpg', width: 1200, height: 630, alt: site.name }],
   },
   twitter: {
     card: 'summary_large_image',
     title: site.seo.title,
     description: site.seo.description,
-    images: ['/images/og-thumbnail.jpg'],
   },
   robots: { index: true, follow: true },
+  applicationName: site.name,
+  appleWebApp: { capable: true, title: site.shortName, statusBarStyle: 'black-translucent' },
+  formatDetection: { telephone: false },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } : undefined,
+  },
 };
 
 export const viewport: Viewport = {
@@ -58,19 +65,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const personJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: site.name,
-  url: site.url,
-  jobTitle: 'Software Developer',
-  description: site.seo.description,
-  image: `${site.url}${site.about.photo.src}`,
-  address: { '@type': 'PostalAddress', addressRegion: 'Upper Chitral', addressCountry: 'PK' },
-  sameAs: site.socials.filter((s) => s.href.startsWith('http') && s.id !== 'whatsapp').map((s) => s.href),
-  founder: { '@type': 'Organization', name: 'Collabs', url: 'https://collabs.eu.org' },
-  knowsAbout: ['Web development', 'Next.js', 'TypeScript', 'React', 'UI/UX design', 'Civic technology'],
-};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -84,8 +78,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, '\\u003c') }}
+          dangerouslySetInnerHTML={{ __html: jsonLdString(siteJsonLd()) }}
         />
+        {profileUrls.map((href) => (
+          <link key={href} rel="me" href={href} />
+        ))}
       </head>
       <body>
         <ThemeProvider>
@@ -105,6 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <BackToTop />
           <Cursor />
           <RevealObserver />
+          <ServiceWorker />
         </ThemeProvider>
         <Analytics />
       </body>

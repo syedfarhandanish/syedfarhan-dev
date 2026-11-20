@@ -6,7 +6,7 @@ import type { AvailabilityState, SocialLink } from './types';
 export const site = {
   name: 'Syed Farhan Danish',
   shortName: 'SFD',
-  url: 'https://syedfarhandanish.me',
+  url: 'https://www.syedfarhandanish.me',
   locale: 'en_US',
   location: 'Upper Chitral, Pakistan',
   /** Shown in the hero as a survey-style coordinate readout. */
@@ -35,7 +35,7 @@ export const site = {
     // `*word*` renders in the italic serif accent.
     headline: 'I turn local problems into *working* software.',
     intro:
-      "I'm a Grade 12 student and developer from Upper Chitral. I design and build web apps with Next.js, TypeScript and Supabase — a bus-booking platform for the Hindukush route, an e-voting system for school elections, and tools for rural energy and the Khowar language. Most of them started as a problem I noticed around me.",
+      "I'm Syed Farhan Danish — a Grade 12 student and software developer from Upper Chitral, Pakistan. I design and build web apps with Next.js, TypeScript and Supabase — a bus-booking platform for the Hindukush route, an e-voting system for school elections, and tools for rural energy and the Khowar language. Most of them started as a problem I noticed around me.",
   },
 
   about: {

@@ -45,3 +45,10 @@ components/
 content/        all site content (typed)
 lib/            noise, LoadMap engine, e-Vote rules model, contrast, contact schema
 ```
+
+## SEO, sharing & PWA
+
+- **Share images** are generated at build time from `lib/og.tsx`: `app/opengraph-image.tsx` (home) and `app/projects/[slug]/opengraph-image.tsx` (one per case study). They update automatically when content changes. Fonts live in `assets/fonts/`.
+- **Structured data** (`lib/seo.ts`): ProfilePage + Person + WebSite on every page, BreadcrumbList + SoftwareApplication on case studies.
+- **Search engine verification:** set `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION` in Vercel (token only).
+- **PWA:** `app/manifest.ts`, icons in `public/icons/` (regenerate with `node scripts/generate-icons.mjs`), service worker in `public/sw.js` (bump `VERSION` to clear old caches), offline page at `/offline`.
