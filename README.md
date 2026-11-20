@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# syedfarhandanish.me
 
-## Getting Started
-
-First, run the development server:
+Personal portfolio of Syed Farhan Danish — Next.js 16 (App Router), TypeScript, Tailwind CSS v4.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Updating content (no component edits needed)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All copy lives in typed files in [`content/`](content):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What | File |
+|---|---|
+| Name, hero text, about, socials, services | `content/site.ts` |
+| **Availability status** | `content/site.ts` → `availability` (`open` / `limited` / `focused`) |
+| **CV / resume** | Replace `public/Syed_Farhan_Resume.pdf`, or change `site.resume.href` |
+| Projects + case studies | `content/projects.ts` (add a `caseStudy` block to get a `/projects/<slug>` page) |
+| Timeline, achievements, certifications | `content/experience.ts` |
+| Skills (each linked to projects) | `content/skills.ts` |
 
-## Learn More
+Project images go in `public/projects/`. Pages, sitemap, command palette, terminal and the `/api/projects` endpoint all read from these files automatically.
 
-To learn more about Next.js, take a look at the following resources:
+## Contact form
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The form posts to `/api/contact`, which validates on the server, applies spam protection (honeypot, timing check, rate limit) and then delivers the message. Configure delivery with environment variables (see `.env.example`):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Resend:** set `RESEND_API_KEY` and `CONTACT_TO_EMAIL` (optional `CONTACT_FROM_EMAIL`).
+- **Formspree:** set `FORMSPREE_FORM_ID` (falls back to the form ID the previous site used).
 
-## Deploy on Vercel
+Keys stay on the server and are never shipped to the browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/            routes: home, /projects/[slug], /api/contact, /api/projects, sitemap, robots
+components/
+  layout/       navbar, footer, theme, command palette, cursor, scroll progress
+  home/         homepage sections (hero, about, work, lab, skills, journey, contact)
+  lab/          Capabilities Lab experiments
+  project/      shared project UI (visual, status, links, case-study nav)
+  ui/           small primitives
+content/        all site content (typed)
+lib/            noise, LoadMap engine, e-Vote rules model, contrast, contact schema
+```
