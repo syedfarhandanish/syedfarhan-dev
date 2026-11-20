@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import {
   ArrowRight,
@@ -11,12 +11,14 @@ import {
   FolderGit2,
   Hash,
   Mail,
+  MonitorDown,
   MoonStar,
   Search,
 } from 'lucide-react';
 import { navSections, site } from '@/content/site';
 import { projects } from '@/content/projects';
 import { useTheme } from './ThemeProvider';
+import { canInstall, promptInstall, subscribeInstall } from '@/lib/pwa';
 
 const OPEN_EVENT = 'sfd:open-palette';
 export function openCommandPalette() {
@@ -44,6 +46,7 @@ export default function CommandPalette() {
   const router = useRouter();
   const pathname = usePathname();
   const { toggle, theme } = useTheme();
+  const installable = useSyncExternalStore(subscribeInstall, canInstall, () => false);
   const listId = useId();
 
   const close = useCallback(() => {
@@ -123,6 +126,22 @@ export default function CommandPalette() {
           }
         },
       },
+      ...(installable
+        ? [
+            {
+              id: 'install',
+              group: 'Actions' as const,
+              label: 'Install as an app',
+              hint: 'Works offline',
+              keywords: 'pwa install home screen offline',
+              icon: MonitorDown,
+              run: async () => {
+                const outcome = await promptInstall();
+                if (outcome === 'accepted') setToast('Installed — find it on your home screen or app list');
+              },
+            },
+          ]
+        : []),
       { id: 'contact', group: 'Actions', label: 'Contact me', keywords: 'message hire email', icon: Mail, run: () => go('contact') },
       ...site.socials
         .filter((s) => s.href.startsWith('http'))
@@ -136,7 +155,7 @@ export default function CommandPalette() {
         })),
     ];
     return list;
-  }, [go, pathname, router, theme, toggle]);
+  }, [go, installable, pathname, router, theme, toggle]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

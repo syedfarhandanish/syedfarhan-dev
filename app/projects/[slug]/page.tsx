@@ -9,6 +9,7 @@ import StatusBadge from '@/components/project/StatusBadge';
 import ProjectVisual from '@/components/project/ProjectVisual';
 import ProjectLinks from '@/components/project/ProjectLinks';
 import CaseStudyNav from '@/components/project/CaseStudyNav';
+import { jsonLdString, projectJsonLd } from '@/lib/seo';
 
 const withCaseStudy = projects.filter((p) => p.caseStudy);
 
@@ -32,7 +33,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: p.summary,
       url: `${site.url}/projects/${p.slug}`,
       type: 'article',
-      images: p.media?.fit === 'cover' ? [{ url: p.media.src }] : [{ url: '/images/og-thumbnail.jpg', width: 1200, height: 630 }],
     },
   };
 }
@@ -55,19 +55,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const idx = withCaseStudy.findIndex((x) => x.slug === p.slug);
   const next = withCaseStudy[(idx + 1) % withCaseStudy.length];
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    name: p.title,
-    description: p.summary,
-    author: { '@type': 'Person', name: site.name, url: site.url },
-    url: `${site.url}/projects/${p.slug}`,
-    keywords: p.stack.join(', '),
-  };
 
   return (
     <article className="pb-24 pt-28 sm:pt-32">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(projectJsonLd(p)) }} />
 
       {/* Header */}
       <header className="shell">
